@@ -96,4 +96,76 @@ install.packages(packages)
 lapply(packages, library, character.only = TRUE)
 cat("✅ 所有包安装成功！\n")
 
+---
+
+## 五、数据获取
+
+本研究所需数据主要来源于论文中不同恢复类型和不同恢复年限下的土壤物理性质测定结果。
+
+### 数据获取方式
+
+原始数据已经放在github仓库中，命名为Origin data。
+
+### 数据复现逻辑
+
+1. 整理土壤物理性质原始指标
+2. 依据论文提出的功能评价方法构建土壤功能得分
+3. 综合功能得分形成土壤物理质量指数，完成关键图形复现
+
+---
+
+## 六、部分图画复现
+
+### 图1：团聚体平均重量直径（MWD）、土壤可蚀性因子 K 及抗侵蚀与抗退化功能（SPF3）
+
+| 类型 | 图片 |
+|------|------|
+| 原图 | ![原图](https://github.com/user-attachments/assets/d32c259d-6dbb-4c5d-b3cf-46285aa9e853) |
+| R语言复现图 | ![复现图](https://github.com/user-attachments/assets/cf13e5ff-f569-47c1-8d88-da902377d045) |
+| R语言代码 | ![代码](https://github.com/user-attachments/assets/7032a3cf-cc31-4fd6-ae90-0d78b538c3ab) |
+
+### 图2：不同恢复方式与恢复时间对四类土壤功能的综合影响格局
+
+| 类型 | 图片 |
+|------|------|
+| 原图 | ![原图](https://github.com/user-attachments/assets/c252acf7-9e19-4821-921b-55ade0721d8f) |
+| R语言复现图 | ![复现图](https://github.com/user-attachments/assets/e939c1ba-41aa-4a3f-99be-ff05b0c56723) |
+| R语言代码 | ![代码](https://github.com/user-attachments/assets/058c4727-12b3-4629-96ef-8569ffe9ecb9) |
+
+### 图3：不同恢复方式和恢复年限对综合土壤物理质量的总体影响
+
+| 类型 | 图片 |
+|------|------|
+| 原图 | ![原图](https://github.com/user-attachments/assets/ff4fb388-9f9c-4612-9034-c5ae62b5d560) |
+| R语言复现图 | ![复现图](https://github.com/user-attachments/assets/e118970e-0fe6-45a2-8b48-c7be7103c399) |
+| R语言代码 | ![代码](https://github.com/user-attachments/assets/9bc7038b-79de-4a11-bf6d-c9aa1d797836) |
+
+---
+
+## 七、复现结果展示
+
+成功复现了论文中的关键图形，包括土壤容重（BD）、穿透阻力（PR）、饱和导水率（Ks）、有效含水量（AWC）、团聚体平均重量直径（MWD）、土壤可蚀性因子（K）、土壤通气孔隙度（SAC）、中孔隙度（Mesoporosity）及相关土壤功能指标（SPF1–SPF4）和综合土壤物理质量指数（SPQI）。
+
+### 复现结果表明
+
+1. **不同恢复类型**下土壤物理性质和功能存在明显差异。林地和草地恢复整体上优于耕地，尤其在抗侵蚀功能、通气功能和综合土壤物理质量方面表现更好。经济林恢复虽然改善了部分水分供给和抗退化功能，但在根系支撑功能方面提升有限。
+
+2. **不同恢复年限**下，经济林恢复表现出一定的阶段性变化特征：前期部分土壤功能有所改善，但随着恢复年限增加，综合土壤物理质量变化不大，说明不同土壤功能之间存在一定权衡关系。
+
+3. 所有复现图形均已成功输出，已保存为 PNG 和 PDF 格式，保存在 [https://github.com/zlznevergu/zlzlunwenfuxian](https://github.com/zlznevergu/zlzlunwenfuxian)，基本还原了原论文图形的主要趋势和结果特征。
+
+---
+
+## 八、总结
+
+本次复现较好地重现了论文中土壤物理性质、土壤功能和综合土壤质量指数的主要结果。
+
+复现结果说明：
+- 不同植被恢复方式对土壤物理质量的影响存在显著差异
+- 自然恢复对土壤质量提升更明显
+- 经济林恢复虽然对部分功能有促进作用，但整体提升效果有限
+
+总体来看，本次复现验证了论文的核心结论，即**土壤物理性质的变化会影响不同土壤功能，而各功能之间的协同与权衡最终决定综合土壤物理质量水平**，达到了预期复现目标。
+
+
  

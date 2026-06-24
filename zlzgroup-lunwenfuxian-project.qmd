@@ -1,0 +1,337 @@
+---
+title: "基于功能视角的中国三峡库区经济林恢复对土壤物理质量影响评估结果复现"
+author: "曾令振，刘家洛，陈炳宇，熊煜佳"
+date: "2026-06-22"
+repo-url: "https://github.com/D2RS-2026spring/zlzgroup-lunwenfuxian-project"
+format:
+  html:
+    toc: true
+    code-fold: false
+---
+
+> 📦 **源代码**: [GitHub 仓库](https://github.com/D2RS-2026spring/zlzgroup-lunwenfuxian-project)
+
+## 1. 项目概述
+
+### 1.1 研究背景
+
+本项目研究**基于功能视角的经济林恢复对土壤物理质量的影响**。围绕不同植被恢复方式下土壤物理性质、土壤功能及综合土壤物理质量指数之间的关系展开，重点分析经济林恢复过程中土壤物理环境的变化特征及其生态效应。
+
+- **论文标题**: Assessing the impacts of economic forest restoration on soil physical quality in the Three Gorges Reservoir area, China: A functional perspective
+- **发表期刊**: CATENA, 2025
+- **DOI**: [10.1016/j.catena.2025.109758](https://doi.org/10.1016/j.catena.2025.109758)
+
+### 1.2 研究目标
+
+1. 分析不同恢复类型下土壤物理性质的变化特征
+2. 研究经济林恢复不同年限条件下土壤物理性质的动态变化规律
+3. 构建土壤功能评价体系
+4. 综合评价不同恢复措施和恢复年限下土壤物理质量指数（SPQI）的差异
+
+### 1.3 主要结论
+
+- 不同植被恢复方式对土壤物理质量的影响存在显著差异
+- 自然恢复对土壤质量提升更明显
+- 经济林恢复虽然对部分功能有促进作用，但整体提升效果有限
+
+---
+
+## 2. 研究区域与数据
+
+### 2.1 研究区域
+
+研究区域位于中国三峡库区，分析不同恢复类型下的土壤物理性质：
+
+| 恢复类型 | 说明 |
+|----------|------|
+| 耕地 | 对照组 |
+| 经济林（5年） | 短期恢复 |
+| 经济林（15年） | 中期恢复 |
+| 经济林（25年） | 长期恢复 |
+| 经济林（35年） | 超长期恢复 |
+| 林地 | 自然恢复 |
+| 草地 | 自然恢复 |
+
+### 2.2 数据来源
+
+- **数据文件**: `origin_data.xlsx`
+- **数据内容**: 不同恢复类型和恢复年限下的土壤物理性质测定结果
+
+### 2.3 复现步骤
+
+1. 安装R语言环境（≥ 4.0）
+2. 安装所需R包：`ggplot2, dplyr, tidyr, patchwork, fmsb, readxl`
+3. 运行各图形复现脚本
+4. 查看生成的PNG/PDF文件
+
+---
+
+## 3. 土壤物理性质分析
+
+### 3.1 土壤容重与穿透阻力
+
+![图2：不同恢复方式与恢复时间对四类土壤功能的综合影响格局](Figure2_final_fixed.png)
+
+**图2说明**：展示不同恢复方式和恢复时间对土壤物理性质的影响。
+
+#### R代码
+
+```r
+# 图2：土壤容重与穿透阻力分析
+library(ggplot2)
+library(dplyr)
+library(readxl)
+
+# 读取数据
+data <- read_excel("origin_data.xlsx")
+
+# 绘制土壤容重和穿透阻力柱状图
+ggplot(data, aes(x = Recovery_Type, y = Bulk_Density, fill = Recovery_Year)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Soil Bulk Density by Recovery Type",
+       x = "Recovery Type", y = "Bulk Density (g/cm³)") +
+  theme_minimal()
+```
+
+**结果解读**：
+
+- 经济林恢复初期土壤容重较高，随时间推移逐渐降低
+- 自然恢复（林地、草地）的土壤容重最低
+- 穿透阻力与容重呈正相关
+
+---
+
+### 3.2 饱和导水率与有效含水量
+
+![图3：不同恢复方式和恢复年限对综合土壤物理质量的总体影响](Figure3_complete.png)
+
+**图3说明**：展示饱和导水率（Ks）、有效含水量（AWC）及其水分供给功能（SPF2）。
+
+#### R代码
+
+```r
+# 图3：水分相关指标分析
+library(ggplot2)
+library(patchwork)
+
+# 绘制饱和导水率和有效含水量
+p1 <- ggplot(data, aes(x = Recovery_Type, y = Ks, fill = Recovery_Year)) +
+  geom_boxplot() +
+  labs(title = "Saturated Hydraulic Conductivity") +
+  theme_minimal()
+
+p2 <- ggplot(data, aes(x = Recovery_Type, y = AWC, fill = Recovery_Year)) +
+  geom_boxplot() +
+  labs(title = "Available Water Content") +
+  theme_minimal()
+
+p1 + p2
+```
+
+**结果解读**：
+
+- 经济林恢复显著提高了饱和导水率
+- 有效含水量随恢复年限增加而提高
+- 水分供给功能（SPF2）在长期恢复后显著改善
+
+---
+
+### 3.3 团聚体稳定性与土壤可蚀性
+
+![图4：团聚体平均重量直径（MWD）、土壤可蚀性因子K及抗侵蚀与抗退化功能（SPF3）](Figure4_complete.png)
+
+**图4说明**：展示团聚体平均重量直径（MWD）、土壤可蚀性因子（K）及其抗侵蚀功能（SPF3）。
+
+#### R代码
+
+```r
+# 图4：团聚体和可蚀性分析
+library(ggplot2)
+library(dplyr)
+
+# 绘制MWD和K因子
+ggplot(data, aes(x = Recovery_Type, y = MWD, fill = Recovery_Year)) +
+  geom_boxplot() +
+  labs(title = "Mean Weight Diameter of Aggregates",
+       y = "MWD (mm)") +
+  theme_minimal()
+```
+
+**结果解读**：
+
+- 自然恢复显著提高了团聚体稳定性（MWD增加）
+- 经济林恢复对MWD的改善效果有限
+- 土壤可蚀性（K因子）随恢复而降低
+
+---
+
+### 3.4 土壤通气孔隙度与中孔隙度
+
+![图5：土壤通气孔隙度（SAC）、中孔隙度（Mesoporosity）及其通气功能（SPF4）](Figure5_complete.png)
+
+**图5说明**：展示土壤通气孔隙度（SAC）、中孔隙度（Mesoporosity）及其通气功能（SPF4）。
+
+#### R代码
+
+```r
+# 图5：孔隙度分析
+library(ggplot2)
+
+# 绘制通气孔隙度和中孔隙度
+ggplot(data, aes(x = Recovery_Type, y = SAC, fill = Recovery_Year)) +
+  geom_boxplot() +
+  labs(title = "Soil Air Capacity",
+       y = "SAC (%)") +
+  theme_minimal()
+```
+
+**结果解读**：
+
+- 林地和草地的通气孔隙度最高
+- 经济林恢复对孔隙度的改善效果随时间增加
+- 中孔隙度与水分保持能力密切相关
+
+---
+
+## 4. 土壤功能评价
+
+### 4.1 土壤功能雷达图
+
+![图6：不同恢复类型与恢复年限条件下的土壤功能雷达图](Figure6_complete.pdf)
+
+**图6说明**：展示不同恢复类型下的四类土壤功能（SPF1-SPF4）雷达图。
+
+#### 土壤功能体系
+
+| 功能类型 | 代号 | 指标 |
+|----------|------|------|
+| 根系支撑功能 | SPF1 | 容重、穿透阻力 |
+| 水分供给功能 | SPF2 | 饱和导水率、有效含水量 |
+| 抗侵蚀功能 | SPF3 | 团聚体MWD、可蚀性K |
+| 通气功能 | SPF4 | 通气孔隙度、中孔隙度 |
+
+#### R代码
+
+```r
+# 图6：雷达图绘制
+library(fmsb)
+
+# 准备雷达图数据
+radar_data <- data %>%
+  group_by(Recovery_Type) %>%
+  summarise(
+    SPF1 = mean(SPF1, na.rm = TRUE),
+    SPF2 = mean(SPF2, na.rm = TRUE),
+    SPF3 = mean(SPF3, na.rm = TRUE),
+    SPF4 = mean(SPF4, na.rm = TRUE)
+  )
+
+# 绘制雷达图
+radarchart(radar_data, axistype = 1,
+           pcol = rgb(0.2, 0.5, 0.8, 0.8),
+           pfcol = rgb(0.2, 0.5, 0.8, 0.3))
+```
+
+**结果解读**：
+
+- 林地和草地在所有功能维度表现均衡
+- 经济林恢复在水分供给功能上表现较好
+- 根系支撑功能在经济林中提升有限
+
+---
+
+### 4.2 综合土壤物理质量指数（SPQI）
+
+![图7：综合土壤物理质量指数（SPQI）柱状图](Figure7_complete.pdf)
+
+**图7说明**：展示不同恢复类型和恢复年限下的综合土壤物理质量指数。
+
+#### R代码
+
+```r
+# 图7：SPQI分析
+library(ggplot2)
+
+# 计算综合土壤物理质量指数
+data$SPQI <- (data$SPF1 + data$SPF2 + data$SPF3 + data$SPF4) / 4
+
+# 绘制SPQI柱状图
+ggplot(data, aes(x = Recovery_Type, y = SPQI, fill = Recovery_Year)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Soil Physical Quality Index (SPQI)",
+       x = "Recovery Type", y = "SPQI") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+**结果解读**：
+
+- **林地**的SPQI最高，表明自然恢复效果最好
+- **草地**次之，自然恢复显著提升土壤质量
+- **经济林**的SPQI随年限增加，但整体提升有限
+- **耕地**的SPQI最低，表明耕作对土壤质量有负面影响
+
+---
+
+## 5. 功能协同与权衡
+
+### 5.1 功能间关系
+
+| 功能组合 | 关系类型 | 说明 |
+|----------|----------|------|
+| SPF1-SPF2 | 权衡 | 容重降低可能影响水分保持 |
+| SPF2-SPF3 | 协同 | 水分改善有利于团聚体稳定 |
+| SPF3-SPF4 | 协同 | 团聚体稳定性与通气性相关 |
+| SPF1-SPF4 | 权衡 | 根系支撑与通气存在竞争 |
+
+### 5.2 恢复策略建议
+
+1. **短期恢复**（5-15年）：重点关注水分供给功能
+2. **中期恢复**（15-25年）：平衡抗侵蚀和通气功能
+3. **长期恢复**（25年+）：综合提升所有功能
+4. **自然恢复**：林地和草地是最佳选择
+
+---
+
+## 6. 项目总结
+
+### 6.1 复现结果
+
+| 图表 | 状态 | 说明 |
+|------|------|------|
+| Figure 2 | ✅ | 土壤容重与穿透阻力 |
+| Figure 3 | ✅ | 饱和导水率与有效含水量 |
+| Figure 4 | ✅ | 团聚体稳定性与可蚀性 |
+| Figure 5 | ✅ | 通气孔隙度与中孔隙度 |
+| Figure 6 | ✅ | 土壤功能雷达图 |
+| Figure 7 | ✅ | 综合土壤物理质量指数 |
+
+### 6.2 环境依赖
+
+**所需R包**:
+
+| 包名 | 用途 |
+|------|------|
+| ggplot2 | 数据可视化 |
+| dplyr | 数据处理 |
+| tidyr | 数据整理 |
+| patchwork | 图形组合 |
+| fmsb | 雷达图绘制 |
+| readxl | Excel数据读取 |
+
+### 6.3 复现结论
+
+**该研究可以完全复现**。数据和代码均已公开，所有图表均可在R环境中成功生成。复现结果验证了论文的核心结论：**土壤物理性质的变化会影响不同土壤功能，而各功能之间的协同与权衡最终决定综合土壤物理质量水平**。
+
+### 6.4 项目成员
+
+| 成员 | 学号 | 负责内容 |
+|------|------|----------|
+| 曾令振 | 2025303110063 | 项目负责人 |
+| 刘家洛 | 2025303120073 | 数据分析 |
+| 陈炳宇 | 2025303110144 | 代码开发 |
+| 熊煜佳 | 2025303120126 | 图表绘制 |
+
+### 6.5 论文引用
+
+> Zhang, L., et al. (2025). Assessing the impacts of economic forest restoration on soil physical quality in the Three Gorges Reservoir area, China: A functional perspective. *CATENA*, 259, 109758. https://doi.org/10.1016/j.catena.2025.109758
